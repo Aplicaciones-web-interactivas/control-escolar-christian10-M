@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\HorarioController;
+use App\Http\Controllers\GrupoController;
+
 
 Route::get('/', [AuthController::class, 'showLogin'])->name('login');
 
@@ -50,4 +52,19 @@ Route::middleware(['auth.usuario'])->group(function () {
     Route::put('/horarios/{id}', [HorarioController::class, 'update']);
 
     Route::delete('/horarios/{id}', [HorarioController::class, 'destroy']);
-});
+
+    //GRUPOS
+    Route::get('/grupos', [GrupoController::class, 'index']);
+
+    Route::get('/grupos/create', [GrupoController::class, 'create']);
+
+    Route::post('/grupos', [GrupoController::class, 'store']);
+
+    Route::get('/grupos/{id}/edit', [GrupoController::class, 'edit']);
+
+    Route::put('/grupos/{id}', [GrupoController::class, 'update']);
+
+    Route::delete('/grupos/{id}', [GrupoController::class, 'destroy']);
+   
+
+    });
