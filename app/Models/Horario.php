@@ -19,9 +19,9 @@ class Horario extends Model
         return $this->belongsTo(Materia::class);
     }
 
-    public function usuario()
+    public function maestro()
     {
-        return $this->belongsTo(Usuario::class);
+        return $this->belongsTo(Usuario::class, 'usuario_id');
     }
 
     public function grupos()

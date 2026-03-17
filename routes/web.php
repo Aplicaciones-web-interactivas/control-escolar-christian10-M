@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MateriaController;
+use App\Http\Controllers\HorarioController;
 
 Route::get('/', [AuthController::class, 'showLogin'])->name('login');
 
@@ -36,4 +37,17 @@ Route::middleware(['auth.usuario'])->group(function () {
     Route::put('/materias/{id}', [MateriaController::class, 'update']);
 
     Route::delete('/materias/{id}', [MateriaController::class, 'destroy']);
+
+    //HORARIOS
+    Route::get('/horarios', [HorarioController::class, 'index']);
+
+    Route::get('/horarios/create', [HorarioController::class, 'create']);
+
+    Route::post('/horarios', [HorarioController::class, 'store']);
+
+    Route::get('/horarios/{id}/edit', [HorarioController::class, 'edit']);
+
+    Route::put('/horarios/{id}', [HorarioController::class, 'update']);
+
+    Route::delete('/horarios/{id}', [HorarioController::class, 'destroy']);
 });
