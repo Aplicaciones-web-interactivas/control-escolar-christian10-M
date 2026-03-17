@@ -12,6 +12,14 @@ Route::post('/registro', [AuthController::class, 'register']);
 
 Route::post('/logout', [AuthController::class, 'logout']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
+Route::middleware(['auth.usuario'])->group(function () {
+
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    });
+
+    Route::get('/materias', [MateriaController::class, 'index']);
+    Route::get('/horarios', [HorarioController::class, 'index']);
+    Route::get('/grupos', [GrupoController::class, 'index']);
+
 });
