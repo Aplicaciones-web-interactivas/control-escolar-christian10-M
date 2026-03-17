@@ -1,6 +1,28 @@
-<h1>Bienvenido {{ session('usuario_nombre') }}</h1>
+@extends('layouts.app')
 
-<form method="POST" action="/logout">
-@csrf
-<button>Cerrar sesión</button>
-</form>
+@section('content')
+
+<h1 class="text-3xl font-bold mb-6">
+Panel de Control
+</h1>
+
+<div class="grid grid-cols-3 gap-6">
+
+<div class="bg-white p-6 rounded shadow">
+<h2 class="text-xl font-semibold">Materias</h2>
+<a href="/materias" class="text-blue-600">Administrar</a>
+</div>
+
+<div class="bg-white p-6 rounded shadow">
+<h2 class="text-xl font-semibold">Horarios</h2>
+<a href="/horarios" class="text-blue-600">Administrar</a>
+</div>
+
+<div class="bg-white p-6 rounded shadow">
+<h2 class="text-xl font-semibold">Grupos</h2>
+<a href="/grupos" class="text-blue-600">Administrar</a>
+</div>
+
+</div>
+
+@endsection
