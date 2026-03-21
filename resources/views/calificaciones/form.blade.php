@@ -2,38 +2,56 @@
 
 @section('content')
 
-<h1 class="text-2xl font-bold mb-6">Calificar</h1>
+<h1 class="text-2xl font-bold mb-6">
+Calificar alumno
+</h1>
 
-<div class="border p-4 rounded mb-4">
+{{-- 🔹 CARD INFO --}}
+<div class="bg-white p-5 rounded-xl shadow mb-6">
 
-    <h2 class="font-bold">
+    <h2 class="text-lg font-bold mb-1">
         {{ $inscripcion->usuario->nombre }}
     </h2>
 
-    <p>Grupo: {{ $inscripcion->grupo->nombre }}</p>
-    <p>Materia: {{ $inscripcion->grupo->horario->materia->nombre }}</p>
+    <p class="text-gray-600 text-sm">
+        Grupo: {{ $inscripcion->grupo->nombre }}
+    </p>
+
+    <p class="text-gray-600 text-sm">
+        Materia: {{ $inscripcion->grupo->horario->materia->nombre }}
+    </p>
 
 </div>
+
+{{-- 🔹 FORM --}}
+<div class="bg-white p-6 rounded-xl shadow max-w-md">
 
 <form action="/calificaciones/{{ $inscripcion->id }}" method="POST">
     @csrf
     @method('PUT')
 
-    <label class="block mb-2">Calificación</label>
+    <div class="mb-4">
+        <label class="block text-sm text-gray-600 mb-1">
+            Calificación (0 - 100)
+        </label>
 
-    <input
-        type="number"
-        name="calificacion"
-        value="{{ $calificacion->calificacion ?? '' }}"
-        class="border p-2 rounded w-full"
-        min="0"
-        max="100"
-    >
+        <input
+            type="number"
+            name="calificacion"
+            value="{{ $calificacion->calificacion ?? '' }}"
+            min="0"
+            max="100"
+            class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+        >
+    </div>
 
-    <button class="bg-green-600 text-white px-4 py-2 rounded mt-4">
-        Guardar
+    <button
+        class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded transition">
+        Guardar calificación
     </button>
 
 </form>
+
+</div>
 
 @endsection

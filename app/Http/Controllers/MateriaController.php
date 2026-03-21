@@ -8,11 +8,18 @@ use Illuminate\Http\Request;
 class MateriaController extends Controller
 {
 
-    public function index()
-    {
-        $materias = Materia::all();
-        return view('materias.index', compact('materias'));
-    }
+    public function index(Request $request)
+{
+    $buscar = $request->buscar;
+
+    $materias = Materia::when($buscar, function($query) use ($buscar){
+        $query->where('nombre','like',"%$buscar%")
+              ->orWhere('clave','like',"%$buscar%");
+    })
+    ->get();
+
+    return view('materias.index', compact('materias','buscar'));
+}
 
     public function create()
     {

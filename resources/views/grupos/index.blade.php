@@ -2,96 +2,74 @@
 
 @section('content')
 
-<h1 class="text-2xl font-bold mb-6">Grupos</h1>
+<div class="flex justify-between items-center mb-8">
+
+<h1 class="text-3xl font-bold text-gray-800">
+Grupos
+</h1>
 
 <a href="/grupos/create"
-class="bg-blue-600 text-white px-4 py-2 rounded">
-
+class="bg-blue-600 hover:bg-blue-700 transition text-white px-4 py-2 rounded-lg font-semibold shadow">
 Agregar Grupo
-
 </a>
 
+</div>
 
-<form method="GET" class="my-4">
+<!-- Buscador reutilizable -->
+<x-search placeholder="Buscar grupo, materia o profesor..." />
 
-<input
-type="text"
-name="buscar"
-value="{{ $buscar }}"
-placeholder="Buscar grupo, materia o profesor"
-class="border p-2 rounded w-full">
-
-</form>
-
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
 @foreach($grupos as $grupo)
 
-<div class="border p-4 rounded mb-4">
+<div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition transform hover:-translate-y-1">
 
-<h2 class="text-lg font-bold">
-
+<h2 class="text-lg font-semibold text-gray-800 mb-2">
 {{ $grupo->nombre }}
-
 </h2>
 
-
-<p>
-
-Materia:
-{{ $grupo->horario->materia->nombre }}
-
+<p class="text-sm text-gray-500 mb-1">
+📘 {{ $grupo->horario->materia->nombre }}
 </p>
 
-
-<p>
-
-Profesor:
-{{ $grupo->horario->maestro->nombre }}
-
+<p class="text-sm text-gray-500 mb-1">
+👨‍🏫 {{ $grupo->horario->maestro->nombre }}
 </p>
 
-
-<p>
-
-{{ $grupo->horario->dias }}
-
+<p class="text-sm text-gray-500 mb-1">
+📅 {{ $grupo->horario->dias }}
 </p>
 
-
-<p>
-
-{{ $grupo->horario->hora_inicio }} - {{ $grupo->horario->hora_fin }}
-
+<p class="text-sm text-gray-500">
+⏰ {{ $grupo->horario->hora_inicio }} - {{ $grupo->horario->hora_fin }}
 </p>
 
+<div class="mt-5 flex gap-2">
 
-<a
-href="/grupos/{{ $grupo->id }}/edit"
-class="text-blue-600">
-
+<a href="/grupos/{{ $grupo->id }}/edit"
+class="bg-yellow-500 hover:bg-yellow-600 transition text-white px-3 py-1 rounded-lg text-sm">
 Editar
-
 </a>
 
-
-<form
-action="/grupos/{{ $grupo->id }}"
+<form action="/grupos/{{ $grupo->id }}"
 method="POST"
-class="inline">
+onsubmit="return confirm('¿Eliminar grupo?')">
 
 @csrf
 @method('DELETE')
 
-<button class="text-red-600">
-
+<button class="bg-red-500 hover:bg-red-600 transition text-white px-3 py-1 rounded-lg text-sm">
 Eliminar
-
 </button>
 
 </form>
 
 </div>
 
+</div>
+
 @endforeach
+
+</div>
 
 @endsection

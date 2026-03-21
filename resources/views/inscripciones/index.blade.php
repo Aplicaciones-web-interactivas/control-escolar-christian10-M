@@ -2,48 +2,132 @@
 
 @section('content')
 
-<h2 class="text-xl font-bold mb-4">Oferta de Cursos</h2>
+<h1 class="text-2xl font-bold mb-6">
+Inscripciones
+</h1>
+
+{{-- 🔹 OFERTA ACADÉMICA --}}
+<h2 class="text-xl font-semibold mb-4">
+Oferta de Cursos
+</h2>
+
+<!-- Buscador reutilizable -->
+<x-search placeholder="Buscar grupo, materia o profesor..." />
+
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
 
 @foreach($grupos as $grupo)
-<div class="border p-4 mb-3 rounded">
 
-    <h3 class="font-bold">{{ $grupo->nombre }}</h3>
+@php
+    $inscrito = $misInscripciones->contains('grupo_id', $grupo->id);
+@endphp
 
-    <p>{{ $grupo->horario->materia->nombre }}</p>
-    <p>{{ $grupo->horario->maestro->nombre }}</p>
+<div class="p-5 rounded-xl shadow transition
+{{ $inscrito ? 'bg-gray-200 opacity-70' : 'bg-white hover:shadow-lg' }}">
 
-    <form action="/inscribirse/{{ $grupo->id }}" method="POST">
-        @csrf
-        <button class="bg-green-600 text-white px-3 py-1 rounded">
-            Inscribirme
+    <h3 class="text-lg font-bold mb-2">
+        {{ $grupo->nombre }}
+    </h3>
+
+    <p class="text-gray-600 text-sm">
+        {{ $grupo->horario->materia->nombre }}
+    </p>
+
+    <p class="text-gray-600 text-sm mb-2">
+        {{ $grupo->horario->maestro->nombre }}
+    </p>
+
+    <p class="text-xs text-gray-500 mb-3">
+        {{ $grupo->horario->dias }} <br>
+        {{ $grupo->horario->hora_inicio }} - {{ $grupo->horario->hora_fin }}
+    </p>
+
+    @if($inscrito)
+
+        <button
+        disabled
+        class="w-full bg-gray-400 text-white py-2 rounded cursor-not-allowed">
+            Ya inscrito
         </button>
-    </form>
+
+    @else
+
+        <form
+        action="/inscribirse/{{ $grupo->id }}"
+        method="POST"
+        onsubmit="return confirm('¿Seguro que deseas inscribirte a este grupo?')">
+
+            @csrf
+
+            <button
+            class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded transition">
+                Inscribirme
+            </button>
+
+        </form>
+
+    @endif
 
 </div>
+
 @endforeach
 
-<h2 class="text-xl font-bold mt-8 mb-4">Mis Inscripciones</h2>
+</div>
 
-@foreach($misInscripciones as $inscripcion)
-<div class="border p-4 mb-3 rounded bg-gray-100">
 
-    <h3 class="font-bold">
+{{-- 🔹 MIS INSCRIPCIONES --}}
+<h2 class="text-xl font-semibold mb-4">
+Mis Inscripciones
+</h2>
+
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+@forelse($misInscripciones as $inscripcion)
+
+<div class="bg-blue-50 border border-blue-200 p-5 rounded-xl shadow">
+
+    <h3 class="text-lg font-bold mb-2">
         {{ $inscripcion->grupo->nombre }}
     </h3>
 
-    <p>{{ $inscripcion->grupo->horario->materia->nombre }}</p>
-    <p>{{ $inscripcion->grupo->horario->maestro->nombre }}</p>
+    <p class="text-gray-700 text-sm">
+        {{ $inscripcion->grupo->horario->materia->nombre }}
+    </p>
 
-    <form action="/inscripciones/{{ $inscripcion->id }}" method="POST">
+    <p class="text-gray-700 text-sm mb-2">
+        {{ $inscripcion->grupo->horario->maestro->nombre }}
+    </p>
+
+    <p class="text-xs text-gray-500 mb-3">
+        {{ $inscripcion->grupo->horario->dias }} <br>
+        {{ $inscripcion->grupo->horario->hora_inicio }} - {{ $inscripcion->grupo->horario->hora_fin }}
+    </p>
+
+    <form
+    action="/inscripciones/{{ $inscripcion->id }}"
+    method="POST"
+    onsubmit="return confirm('¿Deseas darte de baja de este grupo?')">
+
         @csrf
         @method('DELETE')
 
-        <button class="bg-red-600 text-white px-3 py-1 rounded">
+        <button
+        class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded transition">
             Dar de baja
         </button>
+
     </form>
 
 </div>
-@endforeach
+
+@empty
+
+<p class="text-gray-500">
+    No tienes inscripciones aún.
+</p>
+
+@endforelse
+
+</div>
 
 @endsection

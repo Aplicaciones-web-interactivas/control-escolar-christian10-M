@@ -16,17 +16,20 @@ class GrupoController extends Controller
         $grupos = Grupo::with(['horario.materia','horario.maestro'])
 
         ->when($buscar, function($query) use ($buscar){
-            $query->where('nombre','like',"%$buscar%")
+        $query->where(function($q) use ($buscar){
 
-            ->orWhereHas('horario.materia', function($q) use ($buscar){
-                $q->where('nombre','like',"%$buscar%");
-            })
+        $q->where('nombre','like',"%$buscar%")
 
-            ->orWhereHas('horario.maestro', function($q) use ($buscar){
-                $q->where('nombre','like',"%$buscar%");
-            });
+        ->orWhereHas('horario.materia', function($q2) use ($buscar){
+            $q2->where('nombre','like',"%$buscar%");
         })
 
+        ->orWhereHas('horario.maestro', function($q2) use ($buscar){
+            $q2->where('nombre','like',"%$buscar%");
+        });
+
+    });
+})
         ->get();
 
         return view('grupos.index', compact('grupos','buscar'));

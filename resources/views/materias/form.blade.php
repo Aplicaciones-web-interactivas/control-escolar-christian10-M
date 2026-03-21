@@ -2,7 +2,9 @@
 
 @section('content')
 
-<h1 class="text-2xl font-bold mb-6">
+<div class="max-w-xl mx-auto bg-white p-8 rounded-2xl shadow-md">
+
+<h1 class="text-2xl font-bold mb-6 text-gray-800">
 
 @if(isset($materia))
 Actualizar Materia
@@ -22,28 +24,28 @@ action="{{ isset($materia) ? '/materias/'.$materia->id : '/materias' }}">
 @endif
 
 <div class="mb-4">
-
-<label>Nombre</label>
+<label class="block text-sm font-semibold text-gray-600 mb-1">
+Nombre
+</label>
 
 <input type="text"
 name="nombre"
 value="{{ $materia->nombre ?? '' }}"
-class="border p-2 w-full">
-
+class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
 </div>
 
-<div class="mb-4">
-
-<label>Clave</label>
+<div class="mb-6">
+<label class="block text-sm font-semibold text-gray-600 mb-1">
+Clave
+</label>
 
 <input type="text"
 name="clave"
 value="{{ $materia->clave ?? '' }}"
-class="border p-2 w-full">
-
+class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
 </div>
 
-<button class="bg-blue-600 text-white px-4 py-2 rounded">
+<button class="w-full bg-blue-600 hover:bg-blue-700 transition text-white py-2 rounded-lg font-semibold">
 
 @if(isset($materia))
 Actualizar Materia
@@ -54,5 +56,7 @@ Agregar Materia
 </button>
 
 </form>
+
+</div>
 
 @endsection

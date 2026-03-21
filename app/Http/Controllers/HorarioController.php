@@ -20,6 +20,9 @@ class HorarioController extends Controller
         ->when($buscar, function($query) use ($buscar){
             $query->whereHas('materia', function($q) use ($buscar){
                 $q->where('nombre','like',"%$buscar%");
+            })
+            ->orWhereHas('maestro', function($q) use ($buscar){
+                $q->where('nombre','like',"%$buscar%");
             });
         })
 

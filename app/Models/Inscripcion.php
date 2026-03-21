@@ -22,4 +22,10 @@ class Inscripcion extends Model
     {
         return $this->belongsTo(Usuario::class);
     }
+
+    public function calificacion()
+{
+    return $this->hasOne(Calificacion::class, 'grupo_id', 'grupo_id')
+        ->whereColumn('usuario_id', 'usuario_id');
+}
 }

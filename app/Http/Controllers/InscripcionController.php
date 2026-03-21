@@ -9,19 +9,33 @@ use Illuminate\Support\Facades\Auth;
 
 class InscripcionController extends Controller
 {
-    public function index()
-    {
-        $usuario_id = session('usuario_id');
-        // Todos los grupos disponibles
-        $grupos = Grupo::with(['horario.materia','horario.maestro'])->get();
+    public function index(Request $request)
+{
+    $usuario_id = session('usuario_id');
+    $buscar = $request->buscar;
 
-        // Mis inscripciones
-        $misInscripciones = Inscripcion::with('grupo.horario.materia','grupo.horario.maestro')
-            ->where('usuario_id', $usuario_id)
-            ->get();
+    // 🔹 Oferta académica (con búsqueda)
+    $grupos = Grupo::with(['horario.materia','horario.maestro'])
+        ->when($buscar, function($query) use ($buscar){
+            $query->where('nombre','like',"%$buscar%")
 
-        return view('inscripciones.index', compact('grupos','misInscripciones'));
-    }
+            ->orWhereHas('horario.materia', function($q) use ($buscar){
+                $q->where('nombre','like',"%$buscar%");
+            })
+
+            ->orWhereHas('horario.maestro', function($q) use ($buscar){
+                $q->where('nombre','like',"%$buscar%");
+            });
+        })
+        ->get();
+
+    // 🔹 Mis inscripciones (NO se filtran)
+    $misInscripciones = Inscripcion::with('grupo.horario.materia','grupo.horario.maestro')
+        ->where('usuario_id', $usuario_id)
+        ->get();
+
+    return view('inscripciones.index', compact('grupos','misInscripciones','buscar'));
+}
 
     public function store($grupo_id)
     {
