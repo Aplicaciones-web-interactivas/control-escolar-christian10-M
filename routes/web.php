@@ -5,10 +5,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\GrupoController;
-
+use App\Http\Controllers\InscripcionController;
+use App\Http\Controllers\CalificacionController;
 
 Route::get('/', [AuthController::class, 'showLogin'])->name('login');
-
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/registro', [AuthController::class, 'showRegister']);
@@ -22,49 +22,13 @@ Route::middleware(['auth.usuario'])->group(function () {
         return view('dashboard');
     });
 
-    Route::get('/materias', [MateriaController::class, 'index']);
-    Route::get('/horarios', [HorarioController::class, 'index']);
-    Route::get('/grupos', [GrupoController::class, 'index']);
+    // TODO con resource
+    Route::resource('materias', MateriaController::class);
+    Route::resource('horarios', HorarioController::class);
+    Route::resource('grupos', GrupoController::class);
+    Route::resource('inscripciones', InscripcionController::class);
+    Route::resource('calificaciones', CalificacionController::class);
 
 
-    //MATERIAS
-    Route::get('/materias', [MateriaController::class, 'index']);
-
-    Route::get('/materias/create', [MateriaController::class, 'create']);
-
-    Route::post('/materias', [MateriaController::class, 'store']);
-
-    Route::get('/materias/{id}/edit', [MateriaController::class, 'edit']);
-
-    Route::put('/materias/{id}', [MateriaController::class, 'update']);
-
-    Route::delete('/materias/{id}', [MateriaController::class, 'destroy']);
-
-    //HORARIOS
-    Route::get('/horarios', [HorarioController::class, 'index']);
-
-    Route::get('/horarios/create', [HorarioController::class, 'create']);
-
-    Route::post('/horarios', [HorarioController::class, 'store']);
-
-    Route::get('/horarios/{id}/edit', [HorarioController::class, 'edit']);
-
-    Route::put('/horarios/{id}', [HorarioController::class, 'update']);
-
-    Route::delete('/horarios/{id}', [HorarioController::class, 'destroy']);
-
-    //GRUPOS
-    Route::get('/grupos', [GrupoController::class, 'index']);
-
-    Route::get('/grupos/create', [GrupoController::class, 'create']);
-
-    Route::post('/grupos', [GrupoController::class, 'store']);
-
-    Route::get('/grupos/{id}/edit', [GrupoController::class, 'edit']);
-
-    Route::put('/grupos/{id}', [GrupoController::class, 'update']);
-
-    Route::delete('/grupos/{id}', [GrupoController::class, 'destroy']);
-   
-
-    });
+    Route::post('/inscribirse/{grupo}', [InscripcionController::class, 'store']);
+});

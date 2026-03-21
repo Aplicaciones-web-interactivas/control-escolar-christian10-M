@@ -21,6 +21,8 @@
 
 <a href="/grupos">Grupos</a>
 
+<a href="/inscripciones">Inscripciones</a>
+
 <a href="/calificaciones">Calificaciones</a>
 
 </div>
