@@ -31,4 +31,8 @@ Route::middleware(['auth.usuario'])->group(function () {
 
 
     Route::post('/inscribirse/{grupo}', [InscripcionController::class, 'store']);
+
+    Route::get('/calificaciones', [CalificacionController::class, 'index']);
+    Route::get('/calificaciones/{id}/edit', [CalificacionController::class, 'edit']);
+    Route::put('/calificaciones/{id}', [CalificacionController::class, 'update']);
 });
