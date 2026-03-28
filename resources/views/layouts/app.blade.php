@@ -25,6 +25,9 @@
 
 <a href="/calificaciones">Calificaciones</a>
 
+<a href="/tareas">Tareas</a>
+
+
 </div>
 
 <div>

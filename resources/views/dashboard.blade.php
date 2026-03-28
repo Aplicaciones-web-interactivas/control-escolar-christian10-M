@@ -68,6 +68,18 @@ Panel de Control
         </div>
     </a>
 
+    <a href="/tareas" class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition transform hover:-translate-y-1">
+        <div class="flex items-center gap-4">
+            <div class="bg-orange-100 text-orange-600 p-3 rounded-full text-xl">
+                📌
+            </div>
+            <div>
+                <h2 class="text-lg font-semibold text-gray-800">Tareas</h2>
+                <p class="text-gray-500 text-sm">Revisar tareas</p>
+            </div>
+        </div>
+    </a>
+
 </div>
 
 @endsection
