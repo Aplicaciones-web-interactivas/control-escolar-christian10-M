@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('clave_institucional')->unique();
             $table->string('password');
-            $table->enum('rol', ['alumno', 'maestro']);
+            $table->enum('rol', ['alumno', 'maestro', 'admin']);
             $table->boolean('activo')->default(true);
             $table->timestamps();
         });
