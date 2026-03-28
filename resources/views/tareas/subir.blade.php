@@ -40,6 +40,7 @@
             <h2 class="text-lg font-semibold mb-4">Subir entrega</h2>
         @endif
 
+        
         <form method="POST"
             action="/tareas/{{ $tarea->id }}/subir"
             enctype="multipart/form-data">
